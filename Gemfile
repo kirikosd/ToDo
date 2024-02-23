@@ -8,6 +8,8 @@ gem "rails", "~> 7.1.3"
 # Use sqlite3 as the database for Active Record
 gem "sqlite3", "~> 1.4"
 
+gem 'rswag'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
@@ -21,9 +23,6 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 # Will Paginate
 gem 'will_paginate', '~> 4.0'
-
-# Faker
-gem 'faker'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
