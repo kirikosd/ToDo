@@ -4,80 +4,186 @@ info:
   title: API V1
   version: v1
 paths:
-  "/blogs":
+  "/signup":
     post:
-      summary: Creates a blog
+      summary: User signup
       tags:
-      - Blogs
+      - Users
+      parameters:
+      - name: name
+        in: path        
+        required: true
+        schema:
+          type: string
+      - name: email
+        in: path        
+        required: true
+        schema:
+          type: email
+      - name: password
+        in: path        
+        required: true
+        schema:
+          type: password
+      
+      responses:
+        '201':
+          description: Account created
+        '422':
+          description: Invalid credentials
+
+  "/auth/login":
+    post:
+      summary: User login
+      tags:
+      - Users
+      parameters: 
+      - name: email
+        in: path        
+        required: true
+        schema:
+          type: email
+      - name: password
+        in: path        
+        required: true
+        schema:
+          type: password
+      responses:
+        '201':
+          description: auth_token = {token}
+        '422':
+          description: Invalid credentials
+  "/auth/logout":
+    get:
+      summary: User logout
+      tags:
+      - Users
       parameters: []
       responses:
         '201':
-          description: blog created
+          description: Successful logout 
         '422':
-          description: invalid request
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                content:
-                  type: string
-              required:
-              - title
-              - content
-  "/blogs/{id}":
+          description: Invalid request
+
+  "/todos":
     get:
-      summary: Retrieves a blog
+      summary: List all todos and todo items
       tags:
-      - Blogs
-      - Another Tag
+      - Todos
+      parameters: []
+      responses:
+        '404':
+          description: No Todos or Todos items found
+    post:
+      summary: Create a new todo
+      tags:
+      - Todos
       parameters:
-      - name: id
+      - name: title
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: create_by
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Todo created
+  "/todos/{id}":
+    get:
+      summary: Get a todo
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '404':
+          description: Todo not found
+    put:
+      summary: Update a todo
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '200':
+          description: Todo update
+    delete:
+      summary: Delete a todo and its items
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '200':
+          description: Todo deleted
+  "/todos/{id}/items/{iid}":
+    get:
+      summary: Get a todo item
+      tags:
+      - Todos
+      parameters: []
+      responses:
+        '200':
+          description: Todo item exists
+        '404':
+          description: Todo item does not exists
+    put:
+      summary: Update a todo item
+      tags:
+      - Todos
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Item exists
+        '404':
+          description: Item does not exists
+    delete:
+      summary: Delete a todo item
+      tags:
+      - Todos
+      parameters:
+      - name: name
         in: path
         required: true
         schema:
           type: string
       responses:
         '200':
-          description: blog found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  title:
-                    type: string
-                  content:
-                    type: string
-                required:
-                - id
-                - title
-                - content
-            application/xml:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  title:
-                    type: string
-                  content:
-                    type: string
-                required:
-                - id
-                - title
-                - content
-        '404':
-          description: blog not found
-        '406':
-          description: unsupported accept header
+          description: Todo item deleted
+  "/todos/{id}/items":
+    post:
+      summary: Create a new todo item
+      tags:
+      - Todos
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: done
+        in: path
+        required: true
+        schema:
+          type: boolean
+      responses:
+        '201':
+          description: request attributes are valid
+        '422':
+          description: invalid request
+
+
+
+
+
 servers:
 - url: https://{defaultHost}
   variables:
     defaultHost:
-      default: www.example.com
+      default: localhost:3000

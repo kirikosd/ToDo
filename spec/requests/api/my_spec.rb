@@ -3,10 +3,62 @@ require 'swagger_helper'
 
 describe 'Blogs API' do
 
-  path '/blogs' do
+  path '/signup' do
+
+    post 'User signups' do
+      tags 'USERS'
+      consumes 'application/json'
+      parameter name: :blog, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string },
+          content: { type: :string }
+        },
+        required: [ 'title', 'content' ]
+      }
+
+      response '201', 'blog created' do
+        let(:blog) { { title: 'foo', content: 'bar' } }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:blog) { { title: 'foo' } }
+        run_test!
+      end
+    end
+  end
+
+  path '/auth/login' do
 
     post 'Creates a blog' do
-      tags 'Blogs'
+      tags 'USERS'
+      consumes 'application/json'
+      parameter name: :blog, in: :body, schema: {
+        type: :object,
+        properties: {
+          title: { type: :string },
+          content: { type: :string }
+        },
+        required: [ 'title', 'content' ]
+      }
+
+      response '201', 'blog created' do
+        let(:blog) { { title: 'foo', content: 'bar' } }
+        run_test!
+      end
+
+      response '422', 'invalid request' do
+        let(:blog) { { title: 'foo' } }
+        run_test!
+      end
+    end
+  end
+
+  path '/auth/logout' do
+
+    post 'Creates a blog' do
+      tags 'USERS'
       consumes 'application/json'
       parameter name: :blog, in: :body, schema: {
         type: :object,
@@ -32,7 +84,7 @@ describe 'Blogs API' do
   path '/blogs/{id}' do
 
     get 'Retrieves a blog' do
-      tags 'Blogs', 'Another Tag'
+      tags 'USERS', 'TODOS'
       produces 'application/json', 'application/xml'
       parameter name: :id, in: :path, type: :string
       request_body_example value: { some_field: 'Foo' }, name: 'basic', summary: 'Request example description'
