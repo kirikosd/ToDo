@@ -19,6 +19,8 @@ gem 'jwt'
 # Active Serializer
 gem 'active_model_serializers', '~> 0.10.0'
 
+# Will Paginate
+gem 'will_paginate', '~> 4.0'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
