@@ -7,7 +7,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-
+  
+  # module the controllers without affecting the URI
+  scope module: :v2, constraints: ApiVersion.new('v2') do
+    resources :todos, only: :index
+  end
+  
   # resources :todos do
   #   resources :items
   # end
@@ -18,7 +23,6 @@ Rails.application.routes.draw do
       resources :items
     end
   end
-
 
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
